@@ -1,7 +1,7 @@
 
 * 编译命令
     ```
-    go get
+    GOPROXY=https://goproxy.cn,direct go get
     go build
     ```
 
