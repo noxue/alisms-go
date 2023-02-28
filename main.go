@@ -70,7 +70,7 @@ func CreateEmailClient(accessKeyId *string, accessKeySecret *string) (_result *d
 }
 
 func main() {
-	var port int = 9001
+	var port int = 80
 	if len(os.Args) > 1 {
 		v, err := strconv.Atoi(os.Args[1])
 		if err != nil {
@@ -147,5 +147,5 @@ func main() {
 
 		ctx.JSON(http.StatusOK, tea.ToMap(resp))
 	})
-	r.Run("localhost:" + strconv.Itoa(port)) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	r.Run("0.0.0.0:" + strconv.Itoa(port)) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
