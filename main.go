@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-
+	"fmt"
 	openapi "github.com/alibabacloud-go/darabonba-openapi/client"
 	dm20151123 "github.com/alibabacloud-go/dm-20151123/client"
 	dysmsapi20170525 "github.com/alibabacloud-go/dysmsapi-20170525/v2/client"
@@ -89,12 +89,14 @@ func main() {
 	r.POST("/sms", func(ctx *gin.Context) {
 		var sms SmsParam
 		if err := ctx.BindJSON(&sms); err != nil {
+			fmt.Printf("BindJSON:%s\n", err)
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-
+		
 		client, _err := CreateSmsClient(&sms.Access_key_id, &sms.Access_key_secret)
 		if _err != nil {
+			fmt.Printf("CreateSmsClient:%s\n", _err)
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": _err.Error()})
 			return
 		}
@@ -107,7 +109,9 @@ func main() {
 		}
 		runtime := &util.RuntimeOptions{}
 		resp, err1 := client.SendSmsWithOptions(sendSmsRequest, runtime)
+		
 		if err1 != nil {
+			fmt.Printf("SendSmsWithOptions:%s\n", err1)
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err1.Error()})
 			return
 		}
